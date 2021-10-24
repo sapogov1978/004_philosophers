@@ -6,7 +6,7 @@
 /*   By: brattles <brattles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 01:01:22 by brattles          #+#    #+#             */
-/*   Updated: 2021/10/24 01:52:54 by brattles         ###   ########.fr       */
+/*   Updated: 2021/10/24 17:53:22 by brattles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,19 @@ void	ft_heartbeat_monitor(t_table *table)
 		i = -1;
 		while (++i < table->settings->num_of_phil)
 		{
-			if (ft_chronometer() - diogenes[i].eat_last_time > table->settings->time_to_die)
+			if (diogenes[i].dead_or_alive)
+//			if (ft_chronometer() - diogenes[i].eat_last_time > table->settings->time_to_die)
 			{
 				ft_death_record(table, i);
 				return ;
 			}
 			if (diogenes[i].well_fed == true)
 			{
-				diogenes[i].well_fed = false;
-				++table->phil->eat_complete_counter;
-				if (table->phil->eat_complete_counter >= table->settings->num_of_phil)
+				//diogenes[i].well_fed = false;
+				//++table->phil->eat_complete_counter;
+				//if (table->phil->eat_complete_counter >= table->settings->num_of_phil)
 					ft_party_is_over(table->phil, (int)table->settings->num_of_phil, table->forks);
+					return ;
 			}
 		}
 		usleep(1);
