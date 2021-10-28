@@ -6,7 +6,7 @@
 #    By: brattles <brattles@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/19 22:39:05 by brattles          #+#    #+#              #
-#    Updated: 2021/10/22 12:33:19 by brattles         ###   ########.fr        #
+#    Updated: 2021/10/27 01:46:35 by brattles         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ FUNCTIONS	= philo.c \
 			  ft_lifecycle.c \
 			  ft_panic.c \
 			  ft_utl1.c \
+			  ft_utl2.c \
   			  ft_clean.c
 
 OBJ			:= $(FUNCTIONS:%.c=$(OBJ_DIR)/%.o)

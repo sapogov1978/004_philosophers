@@ -6,7 +6,7 @@
 /*   By: brattles <brattles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 01:49:33 by brattles          #+#    #+#             */
-/*   Updated: 2021/09/28 01:20:41 by brattles         ###   ########.fr       */
+/*   Updated: 2021/10/27 01:24:19 by brattles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_party_is_over(t_phil *phil, int num, pthread_mutex_t *forks)
 {
-	int	i;
-	pthread_t		thread;
+	int			i;
+	pthread_t	thread;
 
 	i = 0;
 	while (i < num)
