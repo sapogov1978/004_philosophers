@@ -6,30 +6,28 @@
 /*   By: brattles <brattles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 01:53:27 by brattles          #+#    #+#             */
-/*   Updated: 2021/10/27 01:39:13 by brattles         ###   ########.fr       */
+/*   Updated: 2021/11/07 13:48:43 by brattles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	ft_horde_is_coming(t_phil *phils, pthread_mutex_t *forks, \
-	t_settings *settings)
+static int	ft_horde_is_coming(t_table *table, t_phil *phils, \
+	pthread_mutex_t *forks, t_settings *settings)
 {
-	t_table	*table;
-	int		i;
+	int				i;
 
 	i = -1;
-	table = (t_table *)malloc(sizeof(t_table));
-	if (!table)
-		return (ft_panic("Memory allocation error", &table));
 	table->phil = phils;
 	table->settings = settings;
 	table->forks = forks;
 	settings->start_time = ft_chronometer();
+	table->finished = 0;
 	while (++i < settings->num_of_phil)
 	{
 		phils[i].eat_last_time = settings->start_time;
 		phils[i].settings = settings;
+		phils[i].well_fed = false;
 		pthread_create(phils[i].phil, NULL, (void *)lifecycle, &phils[i]);
 	}
 	ft_heartbeat_monitor(table);
@@ -38,8 +36,8 @@ static int	ft_horde_is_coming(t_phil *phils, pthread_mutex_t *forks, \
 
 static t_phil	*ft_init_phils(int num_of_phil, pthread_mutex_t *forks)
 {
-	t_phil	*phils;
-	int		i;
+	t_phil			*phils;
+	int				i;
 
 	i = -1;
 	phils = (t_phil *)malloc(sizeof(t_phil) * num_of_phil);
@@ -47,8 +45,8 @@ static t_phil	*ft_init_phils(int num_of_phil, pthread_mutex_t *forks)
 		return (NULL);
 	while (++i < num_of_phil)
 	{
-		phils[i].dead_or_alive = false;
-		phils[i].phil_id = i + 1;
+		phils[i].need_check = true;
+		phils[i].phil_numb = i + 1;
 		phils[i].eat_complete_counter = 0;
 		phils[i].phil = (pthread_t *)malloc(sizeof(pthread_t));
 		if (!phils[i].phil)
@@ -106,13 +104,16 @@ int	ft_parse_and_init(t_table *table, int argc, char **argv)
 	phils = ft_init_phils(settings->num_of_phil, forks);
 	if (!settings || !forks || !phils)
 		return (ft_panic("Memory allocation error", &table));
-	if (settings->num_of_phil < 1 || settings->time_to_die < 1 || \
-		settings->time_to_eat < 1 || settings->time_to_sleep < 1)
+	if (settings->num_of_phil < 1 || settings->time_to_die < 1 \
+		|| settings->time_to_eat < 1 || settings->time_to_sleep < 1)
 		return (ft_panic("Incorrect argument", &table));
-	if (argc == 6 && settings->n_times_to_eat < 1)
+	if (settings->n_times_to_eat < 1)
 		return (ft_panic("Incorrect optional arguments", &table));
-	if (ft_horde_is_coming(phils, forks, settings) == 0)
+	if (ft_horde_is_coming(table, phils, forks, settings) == 0)
+	{
+		ft_free_run (&table, &settings, &forks, &phils);
 		return (0);
+	}
 	else
 		return (ft_panic("Thread creation error", &table));
 }

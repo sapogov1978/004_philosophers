@@ -6,7 +6,7 @@
 /*   By: brattles <brattles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 01:01:22 by brattles          #+#    #+#             */
-/*   Updated: 2021/10/27 01:32:24 by brattles         ###   ########.fr       */
+/*   Updated: 2021/11/06 18:33:20 by brattles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ long	ft_chronometer(void)
 	long			starttime;
 
 	gettimeofday(&tv, NULL);
-	starttime = (tv.tv_sec * 1000) + tv.tv_usec / 1000;
+	starttime = ((tv.tv_sec * 1000000) + tv.tv_usec) * 0.001;
 	return (starttime);
 }

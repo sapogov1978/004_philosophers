@@ -6,7 +6,7 @@
 /*   By: brattles <brattles@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 00:34:11 by brattles          #+#    #+#             */
-/*   Updated: 2021/10/27 01:34:23 by brattles         ###   ########.fr       */
+/*   Updated: 2021/11/07 12:20:26 by brattles         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (ft_panic("Incorrect number of parameters", &table));
 	if (ft_parse_and_init(table, argc, argv) == 0)
+	{
+		table = NULL;
 		return (EXIT_SUCCESS);
+	}
+	free (table);
+	table = NULL;
 	return (EXIT_FAILURE);
 }
